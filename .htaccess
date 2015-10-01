@@ -1,0 +1,5 @@
+# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
+RewriteEngine On
+RewriteBase /
+RewriteRule ^scripts/([/a-zA-Z0-9-_.]+)\.(js|css|png)(.*) scripts/$1.$2$3 [L]
+RewriteRule ^(.*)	index.php?path=$0 [QSA]

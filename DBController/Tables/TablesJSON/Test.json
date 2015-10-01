@@ -1,0 +1,5 @@
+{
+	"Id": ["int", true],
+  	"TestField1": ["varchar(255)"],
+  	"TestField2": ["boolean"]
+}

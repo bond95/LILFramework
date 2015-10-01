@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DBConfig>
+	<Configuration servername="localhost" username="root" password="pass" dbname="TestDB" />
+</DBConfig>
