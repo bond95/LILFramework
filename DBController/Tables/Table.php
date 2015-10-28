@@ -1,5 +1,6 @@
 <?php
 PathDriver::Using(array(PathDriver::DATABASE => array("DBController")));
+PathDriver::Using(array(PathDriver::DRIVERS => array("FormBuilder")));
 
 
 class Table {
@@ -63,6 +64,58 @@ class Table {
 		$stat->SetTableName($this->table_name);
 		$result = DBController::DropTable($stat->GetParams());
 		return $result;
+	}
+		public function FormFields(){
+		$form_fields = array();
+		$info = json_decode(file_get_contents(PathDriver::TABLES_MODEL.$this->table_name.".json"), true);
+		foreach ($info as $field_name => $attrs) {
+			if (end($attrs)){
+				reset($attrs);
+				if (in_array("password", $attrs, true))
+					$form_fields[$field_name] = "password";
+				else	
+					$form_fields[$field_name] = $attrs[0];
+			}
+		}
+		return $form_fields;
+	}
+	public function MapResultToObject($result)
+	{
+		$fields = $this->FormFields();
+		$obj = new stdClass();
+		foreach ($fields as $key => $value) {
+			if (isset($result[$key]))
+			{
+				$obj->$key = $result[$key];
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+		return $obj;
+	}
+	public function PrepareForm()
+	{
+		$form_builder = new FormBuilder();
+		$fields = $this->FormFields();
+		foreach ($fields as $key => $value)
+		{
+			$form_builder->PutInput($key, $this->GetFormType($value), "", $key);
+		}
+		$form_builder->SetFormName($this->table_name);
+		return $form_builder;
+	}
+	private function GetFormType($type)
+	{
+		if ($type == "int")
+			return "number";
+		elseif ($type == "password") {
+			return "password";
+		}
+		else
+			return "text";
 	}
 }
 ?>

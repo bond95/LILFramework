@@ -1,5 +1,5 @@
 {
-	"Id": ["int", true],
-  	"TestField1": ["varchar(255)"],
-  	"TestField2": ["boolean"]
+	"Id": ["int", "auto_increment", false],
+  	"TestField1": ["varchar(255)", true],
+  	"TestField2": ["boolean", true]
 }

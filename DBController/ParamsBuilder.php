@@ -108,8 +108,8 @@ class ParamsBuilder {
 			$field = new stdClass();
 			$field->Name = $key;
 			$field->Type = $value[0];
-			if (isset($value[1]))
-				$field->AutoIncrement = $value[1];
+			if (in_array("auto_increment", $value, true) && $value[0] == "int")
+				$field->AutoIncrement = true;
 			else
 				$field->AutoIncrement = false;
 			$this->params->Fields[$key] = $field;
